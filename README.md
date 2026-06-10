@@ -35,15 +35,6 @@ gs, _ := gospell.Open("ru_RU_full", gospell.SearchPaths())
 hunspell -d ru_RU_full
 ```
 
-В `generate-forms` из tasktracker:
-
-```bash
-go run cmd/generate-forms/main.go \
-  -aff ru_RU_full.aff \
-  -dic ru_RU_full.dic \
-  -batch 2000
-```
-
 ## Как это работает
 
 1. Загружается список всех словоформ из дампа русского языка (1.5M слов)
@@ -56,13 +47,13 @@ go run cmd/generate-forms/main.go \
 
 ## Генерация своих правил
 
-```bash
-# 1. Выгрузить все form→lemma из БД
-psql -c "SELECT form, lemma FROM word_forms WHERE lang = 'ru' AND form != lemma ORDER BY lemma, form;" > forms.tsv
+Запустить скрипт:
 
-# 2. Запустить скрипт
+```bash
 python3 learn_rules.py forms.tsv rules.aff
 ```
+
+Где `forms.tsv` — TSV-файл с колонками `form` и `lemma`.
 
 ## Лицензия
 
